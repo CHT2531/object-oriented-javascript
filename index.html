@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>OO JavaScript</title>
+   <style>
+   .formCtrl{
+   	margin:2.0em;
+   }
+  .error{color:red;}
+  </style>
+</head>
+
+<body>
+<div class="formCtrl">
+<label for="searchBox">Search:</label>
+<input type ="text" id="searchBox">
+<span id="searchErr"></span>
+</div>
+
+<div class="formCtrl">
+<label for="terms">I agree to the terms and conditions:</label>
+<input type ="checkbox" id="terms">
+<span id="termsErr"></span>
+</div>
+	<fieldset class="formCtrl">
+	<legend>Pick a colour</legend>
+		<label for="blueBtn">blue:</label><input type ="radio" id="blueBtn" value="blue" name="colour">
+		<label for="redBtn">red:</label><input type ="radio" id="redBtn" value="red" name="colour">
+		<label for="yellowBtn">red:</label><input type ="radio" id="yellowBtn" value="yellow" name="colour">
+		<span id="colourErr"></span>
+	</fieldset>
+
+
+<button class="formCtrl" id="searchBtn">Click Me</button>
+
+<div id="output">
+</div>
+
+<script src="js/oo-js.js"></script>
+</body>
+</html>
