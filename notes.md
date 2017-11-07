@@ -201,11 +201,11 @@ function Cat(name,breed)
 
 var aDog = new Dog("Buster","Labrador");
 var aCat = new Cat("Mackeral","British Shorthair");
-console.log(aDog.stroke());
-console.log(aCat.stroke());
-console.log(aCat.scratch());
-console.log(aDog.fetch("ball"));
-console.log(aDog.feed("a bone"));
+console.log(aDog.stroke()); //Buster is being stroked
+console.log(aCat.stroke()); //Mackeral is being stroked
+console.log(aCat.scratch()); //Mackeral is scratching
+console.log(aDog.fetch("ball")); //Buster has fetched a ball
+console.log(aDog.feed("a bone")); //Buster is eating a bone
 
 ```
 
@@ -225,6 +225,9 @@ function Fish(name, breed)
         return this.name+" is swimming";
     }
 }
+var aFish=fish("Flipper","Cod")
+console.log(aFish.swim()); //Flipper is swimming
+console.log(aFish.stroke()); //Flipper is being stroked
 ```
 
 On the face of it this looks fine. The problem is that we will inherit the *stroke* method from the parent Pet class. You can't stroke a goldfish! What we need is a more flexible way of re-using code to build objects. 
@@ -255,7 +258,7 @@ function manager(config)
 
 var aManager=manager({name:"Jane",wage:8.50,dept:"HR"});
 console.log(aManager.calcWeeklyWage(20)); 170
-console.log(aManager.attendMeeting()); Jane is getting paid for not doing much
+console.log(aManager.attendMeeting()); //Jane is getting paid for not doing much
 
 ```
 
