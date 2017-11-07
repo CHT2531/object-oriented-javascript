@@ -3,24 +3,7 @@
 An object is simply a collection of variables and functions that we group together. Objects allow us to deal with complexity in programs. They provide a way of organising and structuring code. 
 
 ## Simple objects
-All the object we create are based on the *Object* this is a basic object that is built into JavaScript. When we create our own objects, essentially we are making a copy of this basic object and adding some extra stuff. Here's an example: 
-
-```javascript
-var anEmployee=new Object()
-anEmployee.name="Jane";
-anEmployee.wage=8.50;
-anEmployee.calcWeeklyWage=function(hours){
-    return hours*this.wage
-}
-```
-Note the use of the keyword *this* in the calWeeklyWage function. It simply means the current object. To work with an object we use dot-notation syntax, *objectName.property* or *objectName.method()*. Here are some examples:
-
-```javascript
-console.log(anEmployee.name) //Jane
-console.log(anEmployee.calcWeeklyWage(40)) //340
-```
-
-It is a bit more efficient to use the object literal notation.
+The simplest way to create objects is by using an object literal.  Here's an example: 
 
 ```javascript
 var anEmployee={
@@ -30,9 +13,13 @@ var anEmployee={
         return hours*this.wage
     }
 }
-console.log(anEmployee.calcWeeklyWage(40)) //outputs 340
 ```
-You will see this far more often than *new Object()*
+Note the use of the keyword *this* in the calWeeklyWage function. It simply means the current object. To work with an object we use dot-notation syntax, *objectName.property* or *objectName.method()*. Here are some examples:
+
+```javascript
+console.log(anEmployee.name) //Jane
+console.log(anEmployee.calcWeeklyWage(40)) //340
+```
 
 ## Creating lots of instances
 If we only want to create a single instance of an object, the above is all we need to know. The complexity in OOP comes when we want to create several different instances of an object. If we take the approach shown above, creating lots of similar objects involves lots of duplicate code. Have a look at the following where there are two employee objects. 
