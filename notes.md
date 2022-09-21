@@ -1,12 +1,12 @@
 
 # Object Oriented Programming
-An object is simply a collection of variables and functions that we group together. Objects allow us to deal with complexity in programs. They provide a way of organising and structuring code. 
+An object is simply a collection of variables and functions that we group together (previously we have only worked with objects that store data). Objects allow us to deal with complexity in programs. They provide a way of organising and structuring code. 
 
 ## Simple objects
 The simplest way to create objects is by using an object literal.  Here's an example: 
 
 ```javascript
-var anEmployee={
+const anEmployee={
     name:"Jane",
     wage:8.50,
     calcWeeklyWage:function(hours){
@@ -14,12 +14,54 @@ var anEmployee={
     }
 }
 ```
-Note the use of the keyword *this* in the calWeeklyWage function. It simply means the current object. To work with an object we use dot-notation syntax, *objectName.property* or *objectName.method()*. Here are some examples:
+We call the variables that are part of the object (in this example ```name``` and ```wage```) *properties*. We call the functions that are part of the object *methods*. Note the use of the keyword '''this''' in the '''calcWeeklyWage()''' method. It simply means the current object. To work with an object we use dot-notation syntax, *objectName.property* or *objectName.method()*. Here are some examples:
 
 ```javascript
 console.log(anEmployee.name) //Jane
 console.log(anEmployee.calcWeeklyWage(40)) //340
 ```
+
+## Objects can have a nested structure
+Object properties can be of any type including arrays or even other objects. In the following example the ```workingDays``` property is an array.
+
+```javascript
+const anEmployee={
+    name:"Jane",
+    wage:8.50,
+    calcWeeklyWage:function(hours){
+        return hours*this.wage
+    },
+    workingDays:["Monday","Tuesday","Wednesday"]
+}
+```
+console.log(anEmployee.workingDays[1]); //outputs Tuesday
+
+// outputs Monday Tuesday Wednesday
+anEmployee.workingDays.forEach(function(workingDay){
+    console.log(workingDay) 
+})
+
+In this example the property ```contactDetails``` is itself an object
+
+```javascript
+const anEmployee={
+    name:"Jane",
+    wage:8.50,
+    calcWeeklyWage:function(hours){
+        return hours*this.wage
+    },
+    contactDetails:{
+        tel:"34651",
+        email:"jane@xyz.co.uk"
+    }
+}
+```
+To access the ```tel``` property we chain together properties using the dot notations
+
+```javascript
+console.log(anEmployee.contactDetails.tel); //34651
+```
+
 
 ## Creating lots of instances
 If we only want to create a single instance of an object, the above is all we need to know. The complexity in OOP comes when we want to create several different instances of an object. If we take the approach shown above, creating lots of similar objects involves lots of duplicate code. Have a look at the following where there are two employee objects. 
@@ -43,7 +85,100 @@ var anotherEmployee={
 console.log(anEmployee.calcWeeklyWage(40)) //340
 console.log(anotherEmployee.calcWeeklyWage(45)) //337.5
 ```
-What if we had 100s of employee objects that we needed to create? There are many different approaches to this problem of how to efficiently create multiple objects of the same type. 
+What if we had 100s of employee objects that we needed to create? There are many different approaches to this problem of how to efficiently create multiple objects of the same type. One of the really confusing things about learning JavaScript is that there are different ways, each with their own syntax for achieving the same goal. The following looks at two approaches, using the prototype chain and using ES2015 Classes. 
+
+## JavaScript is a prototype based language
+Most object oriented programming languages e.g. Java, PHP use class based inheritence i.e. we define a class, and then use this class as a template to create objects. All instances of a class have fixed properties and methods. In JavaScript we make objects by cloning an existing object and then 'bolting on' additional properties and methods. The object that we clone is known as the *prototype*. Have a look at the following example:
+
+```javascript
+const employeePrototype = {
+    talk : function(){
+        console.log(`Hi, my name is ${this.name}`);
+    },
+    calcWeeklyWage : function(hours){
+        return hours*this.wage
+    }
+}
+const newEmployee = Object.create(employeePrototype);
+newEmployee.name = "Pete";
+newEmployee.wage = 7.50;
+newEmployee.talk(); //outputs Hi, my name is Pete
+newEmployee.calcWeeklyWage(10); //outputs 75
+```
+```Object.create()``` is an instruction to create a new object based on an existing object (in this case ```employeePrototype```). To make this more efficient we can use a factory function. 
+
+```javascript
+const employeePrototype = {
+    talk : function(){
+        console.log(`Hi ${this.name}`);
+    },
+    calcWeeklyWage : function(hours){
+        return hours*this.wage
+    }
+}
+
+function employeeFactory(name, wage){
+    const newEmployee = Object.create(employeePrototype);
+    newEmployee.name = "Pete";
+    newEmployee.wage = 7.50;
+    return newEmployee;
+}
+```
+Now, with a single line of code we can create new employee objects. 
+
+```javascript
+const employee1 = employeeFactory("Pete",7.50);
+const employee2 = employeeFactory("Ghulam",11.25);
+const employee3 = employeeFactory("Anna",10.20);
+
+employee1.talk();
+employee3.calcWeeklyWage(30);
+
+```
+Inheritance
+
+```
+
+const employeePrototype = {
+    talk : function(){
+        console.log(`Hi ${this.name}`);
+    },
+    calcWeeklyWage : function(hours){
+        return hours*this.wage
+    }
+}
+const managerPrototype = {
+    attendMeeting : function(){
+        console.log(`${this.name} is getting paid for not doing much`);
+    }
+}
+
+function employeeFactory(name, wage){
+    const newEmployee = Object.create(employeePrototype);
+    newEmployee.name = name;
+    newEmployee.wage = wage;
+    return newEmployee;
+}
+
+function managerFactory(name, wage, dept){
+    let newManager = employeeFactory(name, wage);
+    Object.setPrototypeOf(newManager, managerPrototype);
+    newManager.dept = dept;
+    return newManager;
+}
+
+Object.setPrototypeOf(managerPrototype, employeePrototype);
+
+const employee1 = employeeFactory("Pete",7.50);
+const employee2 = employeeFactory("Ghulam",11.25);
+const employee3 = employeeFactory("Anna",10.20);
+const manager1 = managerFactory("Mike",35.20,"IT");
+
+employee1.talk();
+employee3.calcWeeklyWage(30);
+```
+
+We can then 
 
 ### Constructor functions
 You should be familiar with the idea of a constructor function. 
