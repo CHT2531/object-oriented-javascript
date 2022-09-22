@@ -89,7 +89,7 @@ console.log(anotherEmployee.calcWeeklyWage(45)) //337.5
 ```
 What if we had 100s of employee objects that we needed to create? Clearly, the above approach isn't very DRY. There are many different approaches to this problem of efficiently creatinh many objects of the same type. 
 
-> One of the really confusing things about learning JavaScript is that there are different ways, each with their own syntax, of achieving the same goal. The following looks at two approaches, using the prototype chain and using ES2015 Classes. 
+> One of the really confusing things about learning JavaScript is that there are different ways, each with their own syntax, of achieving the same goal. The following looks at three approaches, using the prototype chain, using constructor functions and using ES2015 Classes. 
 
 ## JavaScript is a prototype based language
 Most object oriented programming languages e.g. Java, PHP use class based inheritence i.e. we define a class, and then use this class as a template to create objects. All instances of a class have fixed properties and methods. In JavaScript we make objects by taking an existing object and then 'bolting on' additional properties and methods. The object that we add to is known as the *prototype*. Have a look at the following example:
@@ -144,8 +144,9 @@ console.log(employee1.talk()); //Hi, my name is Pete
 console.log(`${employee2.name} has earnt £${employee2.calcWeeklyWage(40)}.`); //Ghulam has earnt £450.
 console.log(`${employee3.name} has a wage of £${employee2.wage} an hour.`); //Anna has a wage of £11.25 an hour.
 ```
-## Constructor functions
-JavaScript can make this a little easier with the use of *constructor* functions. If we use the keyword ```new``` when we call a function, an object is created automatically. We can then assign properties to this object. Using the ```prototype``` keyword we can specify functions (methods) that all objects of the same type can share. 
+### Constructor functions
+JavaScript can make this a little easier with the use of *constructor* functions. If we use the keyword ```new``` when we call a function, an object is created automatically. We can then assign properties to this object. And by using the ```prototype``` keyword we can specify functions (methods) that all objects of the same type can share. 
+
 ```javascript
 //constructor function, by convention we use a capital letter at the start of the function name
 function Employee(name, wage){
@@ -196,8 +197,10 @@ console.log(`${employee2.name} has earnt £${employee2.calcWeeklyWage(40)}.`); /
 console.log(`${employee3.name} has a wage of £${employee2.wage} an hour.`); //Anna has a wage of £11.25 an hour.
 ```
 
+This does have the advantage of making our code cleaner and neater. 
+
 ## Inheritance
-If you are familiar with the idea of OOP, you will know about inheritance. The idea that we can create new classes using an existing parent class as a starting point. We can do the same thing using prototypes. The way in which we do this is by chaining together different prototypes using ```Object.setPrototypeOf()```. So when we create the object ```manager1``` and call the method ```calcWeeklyWage()```, first we look on ```manager1``` for the method. It can't be found so we look on ```manager1```'s prototype (```managerPrototype```), again it can't be found, so we move up the prototype chain to ```managerPrototype```'s prototype, ```employeePrototype```, where the method is called. 
+If you are familiar with the idea of OOP, you will know about inheritance. The idea that we can create new classes using an existing parent class as a starting point. We can do the same thing using prototypes. In the following example, we can view ```employee``` as being the parent and ```manager``` as being the child i.e. ```manager``` inherits from ```employee```.The way in which we do this is by chaining together different prototypes using ```Object.setPrototypeOf()```. So when we create the object ```manager1``` and call the method ```calcWeeklyWage()```, first we look on ```manager1``` for the method. It can't be found so we look on ```manager1```'s prototype (```managerPrototype```), again it can't be found, so we move up the prototype chain to ```managerPrototype```'s prototype, ```employeePrototype```, where the method is called. 
 
 ```javascript
 // define prototypes
@@ -227,7 +230,7 @@ function employeeFactory(name, wage){
 
 function managerFactory(name, wage, dept){
     //create a new employee object
-    let newManager = employeeFactory(name, wage);
+    const newManager = employeeFactory(name, wage);
     //make the prototype of the new object the managerPrototype
     Object.setPrototypeOf(newManager, managerPrototype);
     newManager.dept = dept;
@@ -246,7 +249,7 @@ console.log(`${manager1.name} runs ${manager1.dept}.`); //Karla runs HR.
 console.log(manager1.attendMeeting()); //Karla is in a meeting.
 ```
 
-The new class based syntax makes this a bit easier:
+Again, the new class based syntax makes this a bit easier:
 
 ```javascript
 class Employee{
@@ -263,7 +266,7 @@ class Employee{
 }
 class Manager extends Employee{
     constructor(name, wage, dept){
-        super(name, wage)
+        super(name, wage); //this calls the Employee constructor function
         this.dept = dept;
     }
     attendMeeting (){
