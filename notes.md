@@ -171,6 +171,24 @@ console.log(employee1.talk()); //Hi, my name is Pete
 console.log(`${employee2.name} has earnt £${employee2.calcWeeklyWage(40)}.`); //Ghulam has earnt £450.
 console.log(`${employee3.name} has a wage of £${employee2.wage} an hour.`); //Anna has a wage of £11.25 an hour.
 ```
+### An array of objects
+
+We can still store objects in an array. This example uses the constructor function from above to create Employee objects that are then stored in an array. 
+
+```javascript
+const employees = []
+employees.push(new Employee("Pete",7.50));
+employees.push(new Employee("Ghulam",11.25));
+employees.push(new Employee("Anna",10.20));
+
+// Outputs
+// Hi, my name is Pete.
+// Hi, my name is Ghulam.
+// Hi, my name is Anna.
+employees.forEach(function(employee){
+    console.log(employee.talk())
+})
+```
 
 ### ES2015 Classes
 More recent versions of JavaScript provide a ```class``` syntax. This is to make OOP in JavaScript look a bit more like other OOP languages. However, this is just *syntactic sugar*, underneath the code is still using ```prototype``` to share functions between different objects. 
