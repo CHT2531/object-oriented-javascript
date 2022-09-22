@@ -34,12 +34,14 @@ const anEmployee={
     workingDays:["Monday","Tuesday","Wednesday"]
 }
 ```
+```
 console.log(anEmployee.workingDays[1]); //outputs Tuesday
 
 // outputs Monday Tuesday Wednesday
 anEmployee.workingDays.forEach(function(workingDay){
     console.log(workingDay) 
 })
+```
 
 In this example the property ```contactDetails``` is itself an object
 
@@ -88,7 +90,7 @@ console.log(anotherEmployee.calcWeeklyWage(45)) //337.5
 What if we had 100s of employee objects that we needed to create? There are many different approaches to this problem of how to efficiently create multiple objects of the same type. One of the really confusing things about learning JavaScript is that there are different ways, each with their own syntax for achieving the same goal. The following looks at two approaches, using the prototype chain and using ES2015 Classes. 
 
 ## JavaScript is a prototype based language
-Most object oriented programming languages e.g. Java, PHP use class based inheritence i.e. we define a class, and then use this class as a template to create objects. All instances of a class have fixed properties and methods. In JavaScript we make objects by cloning an existing object and then 'bolting on' additional properties and methods. The object that we clone is known as the *prototype*. Have a look at the following example:
+Most object oriented programming languages e.g. Java, PHP use class based inheritence i.e. we define a class, and then use this class as a template to create objects. All instances of a class have fixed properties and methods. In JavaScript we make objects by taking an existing object and then 'bolting on' additional properties and methods. The object that we add to is known as the *prototype*. Have a look at the following example:
 
 ```javascript
 const employeePrototype = {
@@ -105,7 +107,10 @@ newEmployee.wage = 7.50;
 newEmployee.talk(); //outputs Hi, my name is Pete
 newEmployee.calcWeeklyWage(10); //outputs 75
 ```
-```Object.create()``` is an instruction to create a new object based on an existing object (in this case ```employeePrototype```). To make this more efficient we can use a factory function. 
+```Object.create()``` is an instruction to create a new object using existing object (in this case ```employeePrototype```). If we try and access a property or method of ```newEmployee```, and that method or property can't be found (e.g. ```talk()```), then JavaScript will ask the prototype for the method or property instead. 
+
+
+To make this more efficient we can use a factory function. 
 
 ```javascript
 const employeePrototype = {
@@ -117,6 +122,7 @@ const employeePrototype = {
     }
 }
 
+//This is a factory function
 function employeeFactory(name, wage){
     const newEmployee = Object.create(employeePrototype);
     newEmployee.name = "Pete";
@@ -135,13 +141,14 @@ employee1.talk();
 employee3.calcWeeklyWage(30);
 
 ```
-Inheritance
+## Inheritance
+If you are familiar with the idea of OOP, you will know about inheritance. The idea that we can create new classes using an existing parent class as a starting point. We can do the same thing using prototypes. The way in which we do this is by chaining together different prototypes using ```Object.setPrototypeOf()```. So when we create the object ```manager1``` and call the method ```calcWeeklyWage()```, first we look on ```manager1``` for the method. It can't be found so we look on ```manager1``'s prototype (```managerPrototype```), again it can't be found, so we move up the prototype chain to ```managerPrototype```'s prototype, ```employeePrototype```, where the method is called. 
 
-```
-
+```javascript
+// define prototypes
 const employeePrototype = {
     talk : function(){
-        console.log(`Hi ${this.name}`);
+        return `Hi, my name is ${this.name}.`;
     },
     calcWeeklyWage : function(hours){
         return hours*this.wage
@@ -149,9 +156,12 @@ const employeePrototype = {
 }
 const managerPrototype = {
     attendMeeting : function(){
-        console.log(`${this.name} is getting paid for not doing much`);
+        return `${this.name} is in a meeting`;
     }
 }
+
+//set the prototype of managerPrototype to be employeePrototype
+Object.setPrototypeOf(managerPrototype, employeePrototype);
 
 function employeeFactory(name, wage){
     const newEmployee = Object.create(employeePrototype);
@@ -161,21 +171,23 @@ function employeeFactory(name, wage){
 }
 
 function managerFactory(name, wage, dept){
+    //create a new employee object
     let newManager = employeeFactory(name, wage);
+    //make the prototype of the new object the managerPrototype
     Object.setPrototypeOf(newManager, managerPrototype);
     newManager.dept = dept;
     return newManager;
 }
 
-Object.setPrototypeOf(managerPrototype, employeePrototype);
-
+//create some objects
 const employee1 = employeeFactory("Pete",7.50);
 const employee2 = employeeFactory("Ghulam",11.25);
-const employee3 = employeeFactory("Anna",10.20);
-const manager1 = managerFactory("Mike",35.20,"IT");
+const manager1 = managerFactory("Anna",35.20,"IT");
 
-employee1.talk();
-employee3.calcWeeklyWage(30);
+console.log(employee1.talk()); //Hi, my name is Pete
+console.log(`${employee2.name} has earnt £${employee2.calcWeeklyWage(40)}.`); //Ghulam has earnt £450.
+console.log(`${manager1.name} has earnt £${manager1.calcWeeklyWage(40)}.`); //Anna has earnt £1408.
+console.log(manager1.attendMeeting()); //Anna is in a meeting
 ```
 
 We can then 
