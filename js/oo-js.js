@@ -1,10 +1,48 @@
-//Q1. Create an object literal to represent a cake. The object should have properties for type (a string), layers (a number), and ingredients (an array of strings). Assign the newly created object to a variable named myCake. Here's some code that tests it works.
-// console.log(myCake.type) //Sponge
-// console.log(myCake.layers) // 2 
-// console.log(myCake.ingredients) // ["flour","sugar","butter","eggs"]
+
+//Q1. Have a look at the following object literal. 
+
+const filmObj = {
+    title: "Jaws",
+    year: 1975,
+    duration: 128,
+    genres:["drama","thriller"],
+    cast: [
+        {
+            actor: "Roy Scheider",
+            character: "Chief Martin Brody"
+        },
+        {
+            actor: "Robert Shaw",
+            character: "Quint"
+        },
+        {
+            actor: "Lorraine Gary",
+            character: "Ellen Brody"
+        }
+    ],
+    getAge: function(){
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        return currentYear - this.year;
+    }
+}
+/*
+Using this object literal, write console.log statements that will
+a) Output the title of the film.
+b) Output the sentence 'The film Jaws was released in 1975'. 
+c) Using a forEach loop, output the genres of the film.
+d) Output the name of the actor that plays Ellen Brody.
+e) Output the age of the film (you will  need to call the getAge() method).
+f) Using a forEach loop output the entire cast.
+*/
+
+//Q2. Create an object literal to represent a cake. The object should have properties for type (a string), layers (a number), and ingredients (an array of strings). Assign the newly created object to a variable named myCake. Here's some code that tests it works.
+// console.log(myCake.type) // e.g. Sponge
+// console.log(myCake.layers) // e.g. 2 
+// console.log(myCake.ingredients) // e.g. ["flour","sugar","butter","eggs"]
 
 //Q2. Add a bake()  method to the object. bake() should return a string using the type value. Again, here's some code to tests it works.
-// console.log(myCake.bake()) // The sponge cake is baking.
+// console.log(myCake.bake()) // e.g. The sponge cake is baking.
 
 //Q3. Make a new object and call it cakePrinter. cakePrinter should feature a single method printDetails(). The method should accept a single argument, a cake object. The printDetails() method should print out the details of the cake in the console.log e.g.
 //cakePrinter.printDetails(myCake); //Type:Sponge Layers:2 Ingredients: flour sugar butter eggs
