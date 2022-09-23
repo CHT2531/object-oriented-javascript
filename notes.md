@@ -343,11 +343,14 @@ class FormCtrlValidator{
 const txtBoxValidator = new FormCtrlValidator("txtBox","txtBoxErr","This text box can't be empty");
 ```
 When the user submits the form, we can call the ```validate()``` method.
-```
+
+```javascript
 txtBoxValidator.validate();
 ```
+
 The complexity for validating the form control has been abstracted into an object. We could build on this by using inheritance to validate other types of form control.
-```
+
+```javascript
 class ChkBoxValidator extends FormCtrlValidator{
     constructor(formId, errMsgId, errorMsg){
         super(formId, errMsgId, errorMsg); // call the constructor on the parent class
@@ -379,6 +382,7 @@ validators.forEach(function(validator){
 })
 ```
 
+Again, all the complexity has been moved into the validator objects.
 
 
 ## Reading/references
