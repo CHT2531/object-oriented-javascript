@@ -329,7 +329,7 @@ Above is a simple HTML form. We might want to test if the user has completed all
 class FormCtrlValidator{
     constructor(formId, errMsgId, errorMsg){
         this.formControl = document.querySelector("#"+formId); //the form control to validate
-        this.errMsgEl = document.querySelector("#"+errMsgId); //the HTML element to display the error message
+        this.errMsgEl = document.querySelector("#"+errMsgId); //the HTML element that will display the error message
         this.errorMsg = errorMsg; //the actual error message
     }
     validate(){
