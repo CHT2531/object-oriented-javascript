@@ -302,6 +302,84 @@ console.log(`${manager1.name} runs ${manager1.dept}.`); //Karla runs HR.
 console.log(manager1.attendMeeting()); //Karla is in a meeting.
 
 ```
+## Using OOP
+Nearly all tutorials on OOP use toy examples based on real world concepts, just like I have above. Real world examples make OOP concepts easier to understand, and they keep things simple. 
+
+The following is an example of how OOP could be used in an actual JavaScript application. 
+
+```html
+<form>
+        <div>
+            <label for="txtBox">Enter some text:</label>
+            <input type="text" id="txtBox">
+            <span id="txtBoxErr"></span>
+        </div>
+        <div>
+            <label for="chkBox">You must check this box:</label>
+            <input type="checkbox" id="chkBox">
+            <span id="chkBoxErr"></span>
+        </div>
+        <input type="button" id="submitBtn" value="Validate the Form">
+    </form>
+```
+
+Above is a simple HTML form. We might want to test if the user has completed all the fields using JavaScript. Taking an OO approach we can create a ```FormCtrlValidator``` object that can be used to test if the user has entered something into the text box, and display a message if they haven't. 
+
+```javascript
+class FormCtrlValidator{
+    constructor(formId, errMsgId, errorMsg){
+        this.formControl = document.querySelector("#"+formId); //the form control to validate
+        this.errMsgEl = document.querySelector("#"+errMsgId); //the HTML element to display the error message
+        this.errorMsg = errorMsg; //the actual error message
+    }
+    validate(){
+        if(this.formControl.value === ""){
+            this.errMsgEl.textContent = this.errorMsg;
+        }else{
+            this.errMsgEl.textContent = "";
+        }
+    }
+}
+const txtBoxValidator = new FormCtrlValidator("txtBox","txtBoxErr","This text box can't be empty");
+```
+When the user submits the form, we can call the ```validate()``` method.
+```
+txtBoxValidator.validate();
+```
+The complexity for validating the form control has been abstracted into an object. We could build on this by using inheritance to validate other types of form control.
+```
+class ChkBoxValidator extends FormCtrlValidator{
+    constructor(formId, errMsgId, errorMsg){
+        super(formId, errMsgId, errorMsg); // call the constructor on the parent class
+    }
+    validate(){
+        if(!this.formControl.checked){
+            this.errMsgEl.textContent = this.errorMsg;
+            this.isValid = false;
+        }else{
+            this.errMsgEl.textContent = "";
+            this.isValid = true;
+        }
+    }
+}
+```
+We could then create multiple validation objects, and store them in an array.
+
+```javascript
+const validators = [];
+validators.push(new FormCtrlValidator("txtBox","txtBoxErr","This text box can't be empty"));
+validators.push(new ChkBoxValidator("chkBox","chkBoxErr","You must tick this box"));
+```
+
+Then, when validating the form, we can use a loop to validate the form controls.
+
+```javascript
+validators.forEach(function(validator){
+   validator.validate();
+})
+```
+
+
 
 ## Reading/references
 * [https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects] (https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects) 
