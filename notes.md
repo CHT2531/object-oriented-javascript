@@ -304,6 +304,7 @@ console.log(manager1.attendMeeting()); //Karla is in a meeting.
 ```
 
 ## Reading/references
+* [https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects] (https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects) 
 * [https://www.freecodecamp.org/news/a-beginners-guide-to-javascripts-prototype/](https://www.freecodecamp.org/news/a-beginners-guide-to-javascripts-prototype/)
 * [http://eloquentjavascript.net/06_object.html](https://eloquentjavascript.net/06_object.html)
 * [http://addyosmani.com/resources/essentialjsdesignpatterns/book](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects)
