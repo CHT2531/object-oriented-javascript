@@ -87,9 +87,9 @@ const anotherEmployee={
 console.log(anEmployee.calcWeeklyWage(40)) //340
 console.log(anotherEmployee.calcWeeklyWage(45)) //337.5
 ```
-What if we had 100s of employee objects that we needed to create? Clearly, the above approach isn't very DRY. There are many different approaches to this problem of efficiently creating many objects of the same type. 
+What if we had 100s of employee objects that we needed to create? Clearly, the above approach isn't very DRY. There are many different approaches to this problem of efficiently creating many objects of the same type. The following looks at three approaches, using the prototype chain, using constructor functions and using ES2015 Classes.  
 
-> One of the really confusing things about learning JavaScript is that there are different ways, each with their own syntax, of achieving the same goal. The following looks at three approaches, using the prototype chain, using constructor functions and using ES2015 Classes. 
+> One of the really confusing things about learning JavaScript is that there are different ways, each with their own syntax, of achieving the same goal. It's useful to at least be aware of these different approaches so that you can make sense of JavaScript articles, tutorials, Stack Overflow posts etc.
 
 ## JavaScript is a prototype based language
 Most object oriented programming languages e.g. Java, PHP use class based inheritence i.e. we define a class, and then use this class as a template to create objects. All instances of a class have fixed properties and methods. In JavaScript we make objects by taking an existing object and then 'bolting on' additional properties and methods. The object that we add to is known as the *prototype*. Have a look at the following example:
