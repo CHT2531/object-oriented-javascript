@@ -87,7 +87,7 @@ const anotherEmployee={
 console.log(anEmployee.calcWeeklyWage(40)) //340
 console.log(anotherEmployee.calcWeeklyWage(45)) //337.5
 ```
-What if we had 100s of employee objects that we needed to create? Clearly, the above approach isn't very DRY. There are many different approaches to this problem of efficiently creatinh many objects of the same type. 
+What if we had 100s of employee objects that we needed to create? Clearly, the above approach isn't very DRY. There are many different approaches to this problem of efficiently creating many objects of the same type. 
 
 > One of the really confusing things about learning JavaScript is that there are different ways, each with their own syntax, of achieving the same goal. The following looks at three approaches, using the prototype chain, using constructor functions and using ES2015 Classes. 
 
@@ -112,7 +112,32 @@ console.log(anEmployee.talk()); //Hi, my name is Pete
 console.log(`${anEmployee.name} earnt £${anEmployee.calcWeeklyWage(40)}`); //Pete earnt £300;
 ```
 
-```Object.create()``` is an instruction to create a new object using existing object (in this case ```employeePrototype```). If we try and access a property or method of ```anEmployee```, and that method or property can't be found (e.g. ```talk()```), then JavaScript will ask the prototype for the method or property instead. 
+```Object.create()``` is an instruction to create a new object using existing object (in this case ```employeePrototype```). If we try and access a property or method of ```anEmployee```, and that method or property can't be found (e.g. ```talk()```), then JavaScript will ask the prototype for the method or property instead. We can create many different objects that all share and can use methods from the prototype. 
+
+```javascript
+//this is the prototype
+const employeePrototype = {
+    talk: function(){
+        return `Hi, my name is ${this.name}`;
+    },
+    calcWeeklyWage: function(hours){
+        return hours  *this.wage
+    }
+}
+//specify the prototype for anEmployee
+const anEmployee = Object.create(employeePrototype);
+anEmployee.name = "Pete";
+anEmployee.wage = 7.50;
+console.log(anEmployee.talk()); //Hi, my name is Pete
+console.log(`${anEmployee.name} earnt £${anEmployee.calcWeeklyWage(40)}`); //Pete earnt £300;
+
+const someEmployee = Object.create(employeePrototype);
+someEmployee.name = "Zara";
+someEmployee.wage = 9.50;
+console.log(someEmployee.talk()); //Hi, my name is Zara
+console.log(`${someEmployee.name} earnt £${someEmployee.calcWeeklyWage(40)}`); //Zara earnt £380;
+
+```
 
 
 To make this more efficient we can use a factory function. 
@@ -144,8 +169,9 @@ console.log(employee1.talk()); //Hi, my name is Pete
 console.log(`${employee2.name} has earnt £${employee2.calcWeeklyWage(40)}.`); //Ghulam has earnt £450.
 console.log(`${employee3.name} has a wage of £${employee2.wage} an hour.`); //Anna has a wage of £11.25 an hour.
 ```
+
 ### Constructor functions
-JavaScript can make this a little easier with the use of *constructor* functions. If we use the keyword ```new``` when we call a function, an object is created automatically. We can then assign properties to this object. And by using the ```prototype``` keyword we can specify functions (methods) that all objects of the same type can share. 
+JavaScript can make the creation of objects a little easier with the use of *constructor* functions. If we use the keyword ```new``` when we call a function, an object is created automatically. We can then assign properties to this object. By using the ```prototype``` keyword we can specify functions (methods) that all objects of the same type can share. 
 
 ```javascript
 //constructor function, by convention we use a capital letter at the start of the function name
@@ -154,6 +180,7 @@ function Employee(name, wage){
         this.wage = wage;
 }
 
+//add functions to Employee's prototype
 //all Employee objects will be able to use the talk and calcWeeklyWage functions
 Employee.prototype.talk = function(){
         return `Hi, my name is ${this.name}.`;
@@ -172,7 +199,6 @@ console.log(`${employee2.name} has earnt £${employee2.calcWeeklyWage(40)}.`); /
 console.log(`${employee3.name} has a wage of £${employee2.wage} an hour.`); //Anna has a wage of £11.25 an hour.
 ```
 ### An array of objects
-
 We can still store objects in an array. This example uses the constructor function from above to create Employee objects that are then stored in an array. 
 
 ```javascript
@@ -303,9 +329,9 @@ console.log(manager1.attendMeeting()); //Karla is in a meeting.
 
 ```
 ## Using OOP
-Nearly all tutorials on OOP use toy examples based on real world concepts, just like I have above. Real world examples make OOP concepts easier to understand, and they keep things simple. 
+Nearly all tutorials on OOP use toy examples based on real world concepts (films, employees etc.), just like I have above. This can make OOP concepts easier to understand, and they keep things simple. However, it can be difficult to see how or when we would use OOP in our own applications. 
 
-The following is an example of how OOP could be used in an actual JavaScript application. 
+The following is an example of how OOP could be used in an actual JavaScript application.
 
 ```html
 <form>
