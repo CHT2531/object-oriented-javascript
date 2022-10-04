@@ -1,4 +1,4 @@
-# Instructions for running CHT2531 JavaScript Exercises
+# Objects and OOP in JavaSCript
 
 1. Download or clone the repository
 2. Unzip
