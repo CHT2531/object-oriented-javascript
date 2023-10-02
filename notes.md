@@ -92,10 +92,10 @@ What if we had 100s of employee objects that we needed to create? Clearly, the a
     * Using constructor functions.
     * ES2015 Classes.
 
-The following looks at using ES2015 classes
+The following looks at using ES2015 classes.
 
 ### ES2015 Classes
-More recent versions of JavaScript provide a ```class``` syntax. This is to make OOP in JavaScript look a bit more like other OOP languages. However, this is just *syntactic sugar*, underneath the code is still using ```prototype``` to share functions between different objects. 
+More recent versions of JavaScript provide a ```class``` syntax. This is to make OOP in JavaScript look a bit more like other OOP languages. 
 
 ```javascript
 class Employee{
