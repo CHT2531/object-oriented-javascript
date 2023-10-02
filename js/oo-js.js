@@ -32,7 +32,7 @@ const flights = [
     {flightNumber: 217,date: "2023-02-12", airline: {code: "LS",name: "Jet2"},departure:{code: "LBA",name: "Leeds"},arrival:{code: "MAH",name: "Menorca"}}
 ]
 
-//Using this array,, write console.log statements that will
+//Using this array, write console.log statements that will
 //a) Using a forEach loop output the flight numbers i.e.
 // 2131
 // 318
@@ -92,24 +92,14 @@ f) Using a forEach loop output the entire cast.
 // Again, here's some code to tests it works.
 // console.log(myCake.bake()) // e.g. The sponge cake is baking.
 
-//Q6. Create a factory function that will create instances of cake objects. 
-//The factory function should be named cake, it should accept three arguments and return a cake object. 
+//Q6. Create a ```class``` to create instances of cake objects. 
+//The class function should be named Cake, the constructor function should accept three arguments. 
 // Again, uncomment the following to test your code
-// const chocCake = cakeFactory("Chocolate", 3, ["flour", "sugar", "chocolate", "eggs"]);
-// const fruitCake = cakeFactory("Fruit", 2, ["flour", "sugar", "sultanas", "eggs"]);
+// const chocCake = new Cake("Chocolate", 3, ["flour", "sugar", "chocolate", "eggs"]);
+// const fruitCake = new Cake("Fruit", 2, ["flour", "sugar", "sultanas", "eggs"]);
 // console.log(chocCake.bake()); // The Chocolate cake is baking. 
 // console.log(`The ${fruitCake.type} has ${fruitCake.layers} layers.`); // The Fruit cake has 2 layers.
 
-//Q7. Comment out the previous code. 
-// Re-write this program to use a constructor function. Here are the tests:
-// const chocCake = new Cake("Chocolate", 3, ["flour", "sugar", "chocolate", "eggs"]);
-// const fruitCake = new Cake("Fruit", 2, ["flour", "sugar", "sultanas", "eggs"]);
-// console.log(fruitCake.bake()); // The Fruit cake is baking. 
-// console.log(`The ${chocCake.type} has ${chocCake.layers} layers.`); // The Chocolate cake has 3 layers.
-
-//Q8. Comment out the previous code.
-// Re-write the program to use ES2015 classes
-// You can use the same tests as in Q7
 
 
 
