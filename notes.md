@@ -87,7 +87,168 @@ const anotherEmployee={
 console.log(anEmployee.calcWeeklyWage(40)) //340
 console.log(anotherEmployee.calcWeeklyWage(45)) //337.5
 ```
-What if we had 100s of employee objects that we needed to create? Clearly, the above approach isn't very DRY. There are many different approaches to this problem of efficiently creating many objects of the same type. The following looks at three approaches, using the prototype chain, using constructor functions and using ES2015 Classes.  
+What if we had 100s of employee objects that we needed to create? Clearly, the above approach isn't very DRY. There are many different approaches to this problem of efficiently creating many objects of the same type. There are a number of different approaches to OOP in JavaScript. The main ones are:
+    * Using the prototype chain.
+    * Using constructor functions.
+    * ES2015 Classes.
+
+The following looks at using ES2015 classes
+
+### ES2015 Classes
+More recent versions of JavaScript provide a ```class``` syntax. This is to make OOP in JavaScript look a bit more like other OOP languages. However, this is just *syntactic sugar*, underneath the code is still using ```prototype``` to share functions between different objects. 
+
+```javascript
+class Employee{
+    constructor(name, wage){
+        this.name = name;
+        this.wage = wage;
+    }
+    talk(){
+        return `Hi, my name is ${this.name}.`;
+    }
+    calcWeeklyWage(hours){
+        return hours * this.wage
+    }
+}
+const employee1 = new Employee("Pete",7.50);
+const employee2 = new Employee("Ghulam",11.25);
+const employee3 = new Employee("Anna",10.20);
+
+console.log(employee1.talk()); //Hi, my name is Pete
+console.log(`${employee2.name} has earnt £${employee2.calcWeeklyWage(40)}.`); //Ghulam has earnt £450.
+console.log(`${employee3.name} has a wage of £${employee2.wage} an hour.`); //Anna has a wage of £11.25 an hour.
+```
+
+This does have the advantage of making our code cleaner and neater. 
+
+## Inheritance
+If you are familiar with the idea of OOP, you will know about inheritance. The idea that we can create new classes using an existing parent class as a starting point. We can do the same thing using ES2015 classes. 
+
+```javascript
+class Employee{
+    constructor(name, wage){
+        this.name = name;
+        this.wage = wage;
+    }
+    talk(){
+        return `Hi, my name is ${this.name}.`;
+    }
+    calcWeeklyWage(hours){
+        return hours * this.wage
+    }
+}
+class Manager extends Employee{
+    constructor(name, wage, dept){
+        super(name, wage); //this calls the Employee constructor function
+        this.dept = dept;
+    }
+    attendMeeting (){
+        return `${this.name} is in a meeting`;
+    }
+}
+const employee1 = new Employee("Pete", 7.50);
+const employee2 = new Employee("Ghulam", 11.25);
+const manager1 = new Manager("Karla", 35.80, "HR");
+
+console.log(employee1.talk()); //Hi, my name is Pete
+console.log(`${employee2.name} has earnt £${employee2.calcWeeklyWage(40)}.`); //Ghulam has earnt £450.
+console.log(`${manager1.name} has earnt £${manager1.calcWeeklyWage(40)}.`); //Karla has earnt £450.
+console.log(`${manager1.name} runs ${manager1.dept}.`); //Karla runs HR.
+console.log(manager1.attendMeeting()); //Karla is in a meeting.
+```
+
+## Using OOP
+Nearly all tutorials on OOP use toy examples based on real world concepts (films, employees etc.), just like I have above. This can make OOP concepts easier to understand, and they keep things simple. However, it can be difficult to see how or when we would use OOP in our own applications. 
+
+The following is an example of how OOP could be used in an actual JavaScript application.
+
+```html
+<form>
+        <div>
+            <label for="txtBox">Enter some text:</label>
+            <input type="text" id="txtBox">
+            <span id="txtBoxErr"></span>
+        </div>
+        <div>
+            <label for="chkBox">You must check this box:</label>
+            <input type="checkbox" id="chkBox">
+            <span id="chkBoxErr"></span>
+        </div>
+        <input type="button" id="submitBtn" value="Validate the Form">
+    </form>
+```
+
+Above is a simple HTML form. We might want to test if the user has completed all the fields using JavaScript. Taking an OO approach we can create a ```FormCtrlValidator``` object that can be used to test if the user has entered something into the text box, and display a message if they haven't. 
+
+```javascript
+class FormCtrlValidator{
+    constructor(formId, errMsgId, errorMsg){
+        this.formControl = document.querySelector("#"+formId); //the form control to validate
+        this.errMsgEl = document.querySelector("#"+errMsgId); //the HTML element that will display the error message
+        this.errorMsg = errorMsg; //the actual error message
+    }
+    validate(){
+        if(this.formControl.value === ""){
+            this.errMsgEl.textContent = this.errorMsg;
+        }else{
+            this.errMsgEl.textContent = "";
+        }
+    }
+}
+const txtBoxValidator = new FormCtrlValidator("txtBox","txtBoxErr","This text box can't be empty");
+```
+When the user submits the form, we can call the ```validate()``` method.
+
+```javascript
+txtBoxValidator.validate();
+```
+
+The complexity for validating the form control has been abstracted into an object. We could build on this by using inheritance to validate other types of form control.
+
+```javascript
+class ChkBoxValidator extends FormCtrlValidator{
+    constructor(formId, errMsgId, errorMsg){
+        super(formId, errMsgId, errorMsg); // call the constructor on the parent class
+    }
+    validate(){
+        if(!this.formControl.checked){
+            this.errMsgEl.textContent = this.errorMsg;
+            this.isValid = false;
+        }else{
+            this.errMsgEl.textContent = "";
+            this.isValid = true;
+        }
+    }
+}
+```
+We could then create multiple validation objects, and store them in an array.
+
+```javascript
+const validators = [];
+validators.push(new FormCtrlValidator("txtBox","txtBoxErr","This text box can't be empty"));
+validators.push(new ChkBoxValidator("chkBox","chkBoxErr","You must tick this box"));
+```
+
+Then, when validating the form, we can use a loop to validate the form controls.
+
+```javascript
+validators.forEach(function(validator){
+   validator.validate();
+})
+```
+
+Again, all the complexity has been moved into the validator objects.
+
+
+## Reading/references
+* [https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects] (https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects) 
+* [https://www.freecodecamp.org/news/a-beginners-guide-to-javascripts-prototype/](https://www.freecodecamp.org/news/a-beginners-guide-to-javascripts-prototype/)
+* [http://eloquentjavascript.net/06_object.html](https://eloquentjavascript.net/06_object.html)
+* [http://addyosmani.com/resources/essentialjsdesignpatterns/book](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects)
+
+
+
+<!-- three approaches, using the prototype chain, using constructor functions and using ES2015 Classes.  
 
 > One of the really confusing things about learning JavaScript is that there are different ways, each with their own syntax, of achieving the same goal. It's useful to at least be aware of these different approaches so that you can make sense of JavaScript articles, tutorials, Stack Overflow posts etc.
 
@@ -216,34 +377,6 @@ employees.forEach(function(employee){
 })
 ```
 
-### ES2015 Classes
-More recent versions of JavaScript provide a ```class``` syntax. This is to make OOP in JavaScript look a bit more like other OOP languages. However, this is just *syntactic sugar*, underneath the code is still using ```prototype``` to share functions between different objects. 
-
-```javascript
-class Employee{
-    constructor(name, wage){
-        this.name = name;
-        this.wage = wage;
-    }
-    talk(){
-        return `Hi, my name is ${this.name}.`;
-    }
-    calcWeeklyWage(hours){
-        return hours * this.wage
-    }
-}
-const employee1 = new Employee("Pete",7.50);
-const employee2 = new Employee("Ghulam",11.25);
-const employee3 = new Employee("Anna",10.20);
-
-console.log(employee1.talk()); //Hi, my name is Pete
-console.log(`${employee2.name} has earnt £${employee2.calcWeeklyWage(40)}.`); //Ghulam has earnt £450.
-console.log(`${employee3.name} has a wage of £${employee2.wage} an hour.`); //Anna has a wage of £11.25 an hour.
-```
-
-This does have the advantage of making our code cleaner and neater. 
-
-## Inheritance
 If you are familiar with the idea of OOP, you will know about inheritance. The idea that we can create new classes using an existing parent class as a starting point. We can do the same thing using prototypes. In the following example, we can view ```employee``` as being the parent and ```manager``` as being the child i.e. ```manager``` inherits from ```employee```.The way in which we do this is by chaining together different prototypes using ```Object.setPrototypeOf()```. So when we create the object ```manager1``` and call the method ```calcWeeklyWage()```, first we look on ```manager1``` for the method. It can't be found so we look on ```manager1```'s prototype (```managerPrototype```), again it can't be found, so we move up the prototype chain to ```managerPrototype```'s prototype, ```employeePrototype```, where the method is called. 
 
 ```javascript
@@ -294,126 +427,6 @@ console.log(manager1.attendMeeting()); //Karla is in a meeting.
 ```
 
 Again, the new class based syntax makes this a bit easier:
+-->
 
-```javascript
-class Employee{
-    constructor(name, wage){
-        this.name = name;
-        this.wage = wage;
-    }
-    talk(){
-        return `Hi, my name is ${this.name}.`;
-    }
-    calcWeeklyWage(hours){
-        return hours * this.wage
-    }
-}
-class Manager extends Employee{
-    constructor(name, wage, dept){
-        super(name, wage); //this calls the Employee constructor function
-        this.dept = dept;
-    }
-    attendMeeting (){
-        return `${this.name} is in a meeting`;
-    }
-}
-const employee1 = new Employee("Pete", 7.50);
-const employee2 = new Employee("Ghulam", 11.25);
-const manager1 = new Manager("Karla", 35.80, "HR");
-
-console.log(employee1.talk()); //Hi, my name is Pete
-console.log(`${employee2.name} has earnt £${employee2.calcWeeklyWage(40)}.`); //Ghulam has earnt £450.
-console.log(`${manager1.name} has earnt £${manager1.calcWeeklyWage(40)}.`); //Karla has earnt £450.
-console.log(`${manager1.name} runs ${manager1.dept}.`); //Karla runs HR.
-console.log(manager1.attendMeeting()); //Karla is in a meeting.
-
-```
-## Using OOP
-Nearly all tutorials on OOP use toy examples based on real world concepts (films, employees etc.), just like I have above. This can make OOP concepts easier to understand, and they keep things simple. However, it can be difficult to see how or when we would use OOP in our own applications. 
-
-The following is an example of how OOP could be used in an actual JavaScript application.
-
-```html
-<form>
-        <div>
-            <label for="txtBox">Enter some text:</label>
-            <input type="text" id="txtBox">
-            <span id="txtBoxErr"></span>
-        </div>
-        <div>
-            <label for="chkBox">You must check this box:</label>
-            <input type="checkbox" id="chkBox">
-            <span id="chkBoxErr"></span>
-        </div>
-        <input type="button" id="submitBtn" value="Validate the Form">
-    </form>
-```
-
-Above is a simple HTML form. We might want to test if the user has completed all the fields using JavaScript. Taking an OO approach we can create a ```FormCtrlValidator``` object that can be used to test if the user has entered something into the text box, and display a message if they haven't. 
-
-```javascript
-class FormCtrlValidator{
-    constructor(formId, errMsgId, errorMsg){
-        this.formControl = document.querySelector("#"+formId); //the form control to validate
-        this.errMsgEl = document.querySelector("#"+errMsgId); //the HTML element that will display the error message
-        this.errorMsg = errorMsg; //the actual error message
-    }
-    validate(){
-        if(this.formControl.value === ""){
-            this.errMsgEl.textContent = this.errorMsg;
-        }else{
-            this.errMsgEl.textContent = "";
-        }
-    }
-}
-const txtBoxValidator = new FormCtrlValidator("txtBox","txtBoxErr","This text box can't be empty");
-```
-When the user submits the form, we can call the ```validate()``` method.
-
-```javascript
-txtBoxValidator.validate();
-```
-
-The complexity for validating the form control has been abstracted into an object. We could build on this by using inheritance to validate other types of form control.
-
-```javascript
-class ChkBoxValidator extends FormCtrlValidator{
-    constructor(formId, errMsgId, errorMsg){
-        super(formId, errMsgId, errorMsg); // call the constructor on the parent class
-    }
-    validate(){
-        if(!this.formControl.checked){
-            this.errMsgEl.textContent = this.errorMsg;
-            this.isValid = false;
-        }else{
-            this.errMsgEl.textContent = "";
-            this.isValid = true;
-        }
-    }
-}
-```
-We could then create multiple validation objects, and store them in an array.
-
-```javascript
-const validators = [];
-validators.push(new FormCtrlValidator("txtBox","txtBoxErr","This text box can't be empty"));
-validators.push(new ChkBoxValidator("chkBox","chkBoxErr","You must tick this box"));
-```
-
-Then, when validating the form, we can use a loop to validate the form controls.
-
-```javascript
-validators.forEach(function(validator){
-   validator.validate();
-})
-```
-
-Again, all the complexity has been moved into the validator objects.
-
-
-## Reading/references
-* [https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects] (https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects) 
-* [https://www.freecodecamp.org/news/a-beginners-guide-to-javascripts-prototype/](https://www.freecodecamp.org/news/a-beginners-guide-to-javascripts-prototype/)
-* [http://eloquentjavascript.net/06_object.html](https://eloquentjavascript.net/06_object.html)
-* [http://addyosmani.com/resources/essentialjsdesignpatterns/book](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects)
 
