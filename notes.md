@@ -8,18 +8,14 @@ The simplest way to create objects is by using an object literal.  Here's an exa
 ```javascript
 const anEmployee={
     name: "Jane",
-    wage: 8.50,
-    calcWeeklyWage: function(hours){
-        return hours * this.wage
-    }
+    wage: 8.50
 }
 ```
-We call the variables that are part of the object (in this example ```name``` and ```wage```) *properties*. We call the functions that are part of the object *methods* (in this example the function ```calcWeeklyWage()```). Note the use of the keyword ```this``` in the ```calcWeeklyWage()``` method. It simply means the current object. To work with an object we use dot-notation syntax, *objectName.property* or *objectName.method()*. Here are some examples:
+We call the variables that are part of the object (in this example ```name``` and ```wage```) *properties*. To work with an object we use dot-notation syntax, *objectName.property*. Here are some examples:
 
 ```javascript
 console.log(anEmployee.name); //Jane
-console.log(anEmployee.calcWeeklyWage(40)); //340
-console.log(`${anEmployee.name} earnt £${anEmployee.calcWeeklyWage(2)}`); //Jane earnt £17
+console.log(`${anEmployee.name} has a wage of £${anEmployee.wage} an hour`); //Jane has a wage of £8.50 an hour. 
 ```
 
 ## Objects can have a nested structure
@@ -29,9 +25,6 @@ Object properties can be of any type including arrays or even other objects. In 
 const anEmployee={
     name: "Jane",
     wage: 8.50,
-    calcWeeklyWage: function(hours){
-        return hours * this.wage
-    },
     workingDays: ["Monday", "Tuesday", "Wednesday"]
 }
 
@@ -50,9 +43,6 @@ In this example the property ```contactDetails``` is itself an object
 const anEmployee={
     name: "Jane",
     wage: 8.50,
-    calcWeeklyWage: function(hours){
-        return hours * this.wage
-    },
     contactDetails: {
         tel: "34651",
         email: "jane@xyz.co.uk"
@@ -63,6 +53,24 @@ To access the ```tel``` property we chain together properties using the dot nota
 
 ```javascript
 console.log(anEmployee.contactDetails.tel); //34651
+```
+## Object methods
+Methods are functions that belong to an object. In the following example ```calcWeeklyWage()``` is a method.
+
+```javascript
+const anEmployee={
+    name: "Jane",
+    wage: 8.50,
+    calcWeeklyWage: function(hours){
+        return hours * this.wage
+    },
+}
+```
+Note the use of the keyword ```this``` in the ```calcWeeklyWage()``` method. It simply means the current object. To work with an object's method we use dot-notation syntax, *objectName.method()*. Here's an example:
+
+```javascript
+console.log(anEmployee.calcWeeklyWage(40)); //340
+console.log(`${anEmployee.name} earnt £${anEmployee.calcWeeklyWage(2)}`); //Jane earnt £17
 ```
 
 ## Creating lots of instances
