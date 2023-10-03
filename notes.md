@@ -96,9 +96,10 @@ console.log(anEmployee.calcWeeklyWage(40)) //340
 console.log(anotherEmployee.calcWeeklyWage(45)) //337.5
 ```
 What if we had 100s of employee objects that we needed to create? Clearly, the above approach isn't very DRY. There are many different approaches to this problem of efficiently creating many objects of the same type. There are a number of different approaches to OOP in JavaScript. The main ones are:
-* Using the prototype chain.
-* Using constructor functions.
-* ES2015 Classes.
+
+- Using the prototype chain.
+- Using constructor functions.
+- ES2015 Classes.
 
 The following looks at using ES2015 classes.
 
