@@ -128,7 +128,7 @@ console.log(`${employee2.name} has earnt £${employee2.calcWeeklyWage(40)}.`); /
 console.log(`${employee3.name} has a wage of £${employee2.wage} an hour.`); //Anna has a wage of £11.25 an hour.
 ```
 
-This does have the advantage of making our code cleaner and neater. 
+Using a ```class``` means we don't have lots of duplicate code when creating multiple instances.  
 
 ## Inheritance
 If you are familiar with the idea of OOP, you will know about inheritance. The idea that we can create new classes using an existing parent class as a starting point. We can do the same thing using ES2015 classes. 
