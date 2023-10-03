@@ -19,7 +19,7 @@ console.log(`${anEmployee.name} has a wage of £${anEmployee.wage} an hour`); //
 ```
 
 ## Objects can have a nested structure
-Object properties can be of any type including arrays or even other objects. In the following example the ```workingDays``` property is an array.
+Object properties can any type of data including arrays or even other objects. In the following example the ```workingDays``` property is an array.
 
 ```javascript
 const anEmployee={
